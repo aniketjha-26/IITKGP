@@ -2,7 +2,6 @@ import os
 import pandas as pd
 import re
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
@@ -69,7 +68,8 @@ def predict_publishability(models, X):
 # Main function
 def main():
     # Step 1: Load and preprocess data
-    pdf_folder = r"D:\coding\Python\Papers"  # Update with your PDF folder path
+    # Use relative path to the folder
+    pdf_folder = os.path.join(os.getcwd(), "Papers")  # Adjust relative path as needed
     df = load_pdfs_to_dataframe(pdf_folder)
     print(f"Loaded {len(df)} papers.")
 
@@ -103,8 +103,9 @@ def main():
     unlabeled_df['publishability_label'] = unlabeled_df['publishability'].apply(lambda x: "Publishable" if x == 1 else "Non-Publishable")
 
     # Step 5: Save results
-    unlabeled_df[['file_name', 'publishability_label']].to_csv("predictions.csv", index=False)
-    print("Predictions saved to 'predictions.csv'.")
+    output_file = os.path.join(os.getcwd(), "predictions.csv")  # Save the predictions to a CSV file using relative path
+    unlabeled_df[['file_name', 'publishability_label']].to_csv(output_file, index=False)
+    print(f"Predictions saved to '{output_file}'.")
 
     # Evaluation (Optional, only works with labeled data)
     print("\nModel Evaluation Metrics (On Labeled Data):")
