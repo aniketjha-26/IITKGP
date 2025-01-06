@@ -9,7 +9,9 @@ from sklearn.svm import SVC
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 import pdfplumber
 
-# Function to extract text from a PDF file
+"""Opens a PDF file and extracts all text from its pages 
+   Thats why using "pdfplumber" library here"""
+
 def extract_text_from_pdf(file_path):
     try:
         with pdfplumber.open(file_path) as pdf:
@@ -19,7 +21,9 @@ def extract_text_from_pdf(file_path):
         print(f"Error reading {file_path}: {e}")
         return None
 
-# Load PDFs into a DataFrame
+"""Reads all PDFs from a directory, extracts their text,
+   and loads them into a pandas DataFrame"""
+
 def load_pdfs_to_dataframe(pdf_folder):
     data = []
     for file_name in os.listdir(pdf_folder):
@@ -30,7 +34,7 @@ def load_pdfs_to_dataframe(pdf_folder):
                 data.append({"file_name": file_name, "text": text})
     return pd.DataFrame(data)
 
-# Preprocessing function
+""" Cleans the text by removing unwanted content like references and figure captions """
 def preprocess_text(text):
     # Remove references and figure captions
     text = re.sub(r"(References|REFERENCES|Bibliography)[\s\S]+", "", text)
