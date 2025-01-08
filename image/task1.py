@@ -70,10 +70,9 @@ def predict_publishability(models, X):
     return final_predictions
 
 
-# Main function
 def main():
     # Step 1: Load and preprocess data
-    pdf_folder = r"D:\coding\Python\Papers"  # Update with your PDF folder path
+    pdf_folder = os.path.join(os.path.dirname(__file__), "Papers")  # Use a relative path
     df = load_pdfs_to_dataframe(pdf_folder)
     print(f"Loaded {len(df)} papers.")
 
